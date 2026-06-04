@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlumenX & Misc Archive — HR Documentation System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1A1A;
+    --cream: #F9F5EE;
+    --cream2: #F2EDE3;
+    --forest: #0D2B1F;
+    --forest2: #1A4A32;
+    --gold: #B8943A;
+    --gold2: #C9A84C;
+    --rose: #C4776A;
+    --teal: #5BA8A8;
+    --sage: #7BA89A;
+    --muted: #6B6B6B;
+    --border: #DDD5C4;
+    --white: #FFFFFF;
+    --warn-red: #C0392B;
+    --warn-orange: #E67E22;
+    --warn-yellow: #F39C12;
+    --success: #27AE60;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ─── MASTER HUB ─── */
+  #hub {
+    display: block;
+    min-height: 100vh;
+  }
+
+  .hub-header {
+    background: linear-gradient(135deg, #0A1F12 0%, #143322 50%, #1A4228 100%);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hub-header::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -10%;
+    width: 120%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(184,148,58,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(91,168,168,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hub-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .brand-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(184,148,58,0.4);
+  }
+
+  .brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--gold2);
+  }
+
+  .hub-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .hub-title em {
+    color: var(--gold2);
+    font-style: italic;
+  }
+
+  .hub-sub {
+    font-size: 14px;
+    color: rgba(249,245,238,0.6);
+    letter-spacing: 0.5px;
+  }
+
+  .hub-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .hub-meta-item {
+    font-size: 11px;
+    color: rgba(249,245,238,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .hub-meta-item span {
+    color: var(--gold2);
+    font-weight: 600;
+  }
+
+  /* ─── SEARCH & FILTER ─── */
+  .hub-controls {
+    background: var(--forest);
+    padding: 20px 40px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .hub-search {
+    flex: 1;
+    min-width: 200px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(184,148,58,0.3);
+    border-radius: 4px;
+    padding: 10px 16px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .hub-search::placeholder { color: rgba(249,245,238,0.4); }
+  .hub-search:focus { border-color: var(--gold2); }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 8px 16px;
+    color: rgba(249,245,238,0.7);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--forest);
+    font-weight: 600;
+  }
+
+  /* ─── LEGEND ─── */
+  .hub-legend {
+    background: var(--cream2);
+    padding: 16px 40px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .legend-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-right: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .dot-handbook { background: var(--forest2); }
+  .dot-manual { background: var(--warn-red); }
+
+  /* ─── ROLE SECTIONS ─── */
+  .hub-content {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .dept-section {
+    margin-bottom: 48px;
+  }
+
+  .dept-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--forest2);
+  }
+
+  .dept-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--forest2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--gold2);
+  }
+
+  .dept-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--forest);
+  }
+
+  .dept-count {
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--cream2);
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-left: auto;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .role-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .role-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(13,43,31,0.12);
+  }
+
+  .role-card-header {
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest2) 100%);
+    padding: 20px 24px 16px;
+  }
+
+  .role-tag {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold2);
+    margin-bottom: 6px;
+  }
+
+  .role-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+
+  .role-card-body {
+    padding: 16px 24px 20px;
+  }
+
+  .role-versions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .version-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .version-btn.handbook {
+    background: rgba(13,43,31,0.06);
+    border: 1px solid rgba(26,74,50,0.2);
+  }
+
+  .version-btn.handbook:hover {
+    background: var(--forest2);
+    color: var(--cream);
+  }
+
+  .version-btn.manual {
+    background: rgba(192,57,43,0.05);
+    border: 1px solid rgba(192,57,43,0.2);
+  }
+
+  .version-btn.manual:hover {
+    background: var(--warn-red);
+    color: var(--white);
+  }
+
+  .version-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .handbook .version-icon { background: var(--forest2); color: var(--gold2); }
+  .manual .version-icon { background: var(--warn-red); color: white; }
+
+  .version-btn:hover .version-icon {
+    background: rgba(255,255,255,0.2) !important;
+  }
+
+  .version-info {}
+  .version-type {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.7;
+  }
+  .version-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+  .version-btn:hover .version-name { color: inherit; }
+
+  /* ─── DOCUMENT VIEW ─── */
+  #doc-view {
+    display: none;
+    min-height: 100vh;
+  }
+
+  .doc-topbar {
+    background: var(--forest);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+
+  .back-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    padding: 7px 16px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .back-btn:hover { background: rgba(255,255,255,0.18); }
+
+  .doc-topbar-info {
+    flex: 1;
+  }
+
+  .doc-topbar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--cream);
+  }
+
+  .doc-topbar-sub {
+    font-size: 11px;
+    color: rgba(249,245,238,0.5);
+  }
+
+  .doc-type-badge {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  .badge-handbook { background: var(--forest2); color: var(--gold2); }
+  .badge-manual { background: var(--warn-red); color: white; }
+
+  .print-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    color: var(--forest);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .print-btn:hover { background: var(--gold2); }
+
+  /* ─── DOCUMENT CONTENT ─── */
+  .doc-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  .doc-cover {
+    text-align: center;
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+
+  .doc-cover-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  .doc-cover-badge.handbook { background: var(--forest); color: var(--gold2); }
+  .doc-cover-badge.manual { background: var(--warn-red); color: white; }
+
+  .doc-cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    color: var(--forest);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .doc-cover h1.manual-title { color: var(--warn-red); }
+
+  .doc-cover p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .doc-cover-meta {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .doc-cover-meta-item {
+    text-align: center;
+  }
+
+  .dcm-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  .dcm-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ─── DOCUMENT SECTIONS ─── */
+  .doc-section {
+    margin-bottom: 36px;
+  }
+
+  .doc-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--forest);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .doc-section-title .sec-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  h3.sub-section {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--forest2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 24px 0 10px;
+  }
+
+  p.body-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  ul.doc-list {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  ul.doc-list li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  ul.doc-list li strong { color: var(--forest2); }
+
+  /* ─── TABLES ─── */
+  .doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .doc-table th {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .doc-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .doc-table tr:nth-child(even) td { background: var(--cream2); }
+
+  /* ─── CALLOUT BOXES ─── */
+  .callout {
+    padding: 16px 20px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border-left: 3px solid;
+  }
+
+  .callout-warning {
+    background: rgba(192,57,43,0.06);
+    border-color: var(--warn-red);
+  }
+
+  .callout-warning strong { color: var(--warn-red); }
+
+  .callout-info {
+    background: rgba(91,168,168,0.08);
+    border-color: var(--teal);
+  }
+
+  .callout-info strong { color: var(--teal); }
+
+  .callout-gold {
+    background: rgba(184,148,58,0.08);
+    border-color: var(--gold);
+  }
+
+  .callout-gold strong { color: var(--gold); }
+
+  .callout p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  /* ─── ESCALATION TIERS ─── */
+  .escalation-tier {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+
+  .tier-badge {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: white;
+    margin-top: 2px;
+  }
+
+  .tier-1 { background: var(--warn-yellow); }
+  .tier-2 { background: var(--warn-orange); }
+  .tier-3 { background: var(--warn-red); }
+  .tier-4 { background: #6C0000; }
+
+  .tier-content {}
+  .tier-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .tier-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  /* ─── EMAIL TEMPLATES ─── */
+  .email-template {
+    background: #F7F9FC;
+    border: 1px solid #D0D9E4;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .email-header {
+    background: #2C3E50;
+    padding: 10px 16px;
+    color: white;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .email-meta {
+    background: #EEF2F7;
+    padding: 12px 16px;
+    border-bottom: 1px solid #D0D9E4;
+  }
+
+  .email-meta-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 3px;
+    font-size: 12px;
+  }
+
+  .email-meta-row strong { color: #2C3E50; min-width: 50px; }
+
+  .email-body {
+    padding: 16px;
+    line-height: 1.75;
+    color: var(--ink);
+    white-space: pre-wrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ─── KPI TABLE ─── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .kpi-row.header {
+    background: var(--forest);
+    color: var(--cream);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .kpi-cell {
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .kpi-row:nth-child(even) .kpi-cell { background: var(--cream2); }
+
+  .badge-green { color: var(--success); font-weight: 600; }
+  .badge-red { color: var(--warn-red); font-weight: 600; }
+  .badge-gold { color: var(--gold); font-weight: 600; }
+
+  /* ─── TOC ─── */
+  .toc {
+    background: var(--cream2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .toc-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink);
+    transition: color 0.15s;
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .toc-item:hover { color: var(--forest2); }
+
+  .toc-num {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 28px;
+  }
+
+  .toc-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin: 0 8px;
+  }
+
+  /* ─── PRINT STYLES ─── */
+  @media print {
+    #hub { display: none !important; }
+    .doc-topbar { display: none !important; }
+    .doc-wrapper { padding: 24px !important; }
+    #doc-view { display: block !important; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .hub-header { padding: 40px 20px 32px; }
+    .hub-controls { padding: 16px 20px; }
+    .hub-content { padding: 24px 16px; }
+    .hub-legend { padding: 12px 20px; gap: 16px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .doc-wrapper { padding: 24px 20px 60px; }
+    .doc-topbar { padding: 12px 16px; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ MASTER HUB ═══ -->
+<div id="hub">
+
+
+ 
+
+
+  <div class="hub-content" id="hubContent">
+
+    <!-- CREATIVE DEPARTMENT -->
+    <!-- <div class="dept-section" data-dept="creative">
+
+      <div class="cards-grid">
+
+        <div class="role-card" data-dept="creative" data-role="graphic-designer">
+          <div class="role-card-header">
+            <div class="role-tag">Creative · Design</div>
+            <div class="role-title">Graphic Designer<br><small style="font-size:13px;opacity:0.7">(Senior / Mid / Junior)</small></div>
+          </div>
+          <div class="role-card-body">
+            <div class="role-versions">
+              <button class="version-btn handbook" onclick="openDoc('graphic-designer-handbook')">
+                <div class="version-icon">📋</div>
+                <div class="version-info">
+                  <div class="version-type">Version 1</div>
+                  <div class="version-name">Employee Handbook</div>
+                </div>
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+
+    
+
+      </div>
+
+
+
+
+
+
+    </div> -->
+
+ <div class="doc-cover">
+        <div class="doc-cover-badge handbook">Employee Handbook · Version 1.0</div>
+        <h1>Graphic Designer<br><em>Employee Handbook</em></h1>
+        <p>Senior / Mid-Level / Junior — FlumenX & Misc Archive</p>
+        <div class="doc-cover-meta">
+          <div class="doc-cover-meta-item"><div class="dcm-label">Effective</div><div class="dcm-value">June 2026</div></div>
+          <div class="doc-cover-meta-item"><div class="dcm-label">Department</div><div class="dcm-value">Creative</div></div>
+          <div class="doc-cover-meta-item"><div class="dcm-label">Reports To</div><div class="dcm-value">Creative Head / CEO</div></div>
+          <div class="doc-cover-meta-item"><div class="dcm-label">Office</div><div class="dcm-value">Kanjirampara, Trivandrum</div></div>
+        </div>
+      </div>
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <div class="toc-item"><span class="toc-num">01</span>About FlumenX & Misc Archive<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">02</span>Core Values<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">03</span>Attendance & Hours<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">04</span>Leave Policy<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">05</span>Code of Conduct<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">06</span>Performance & Compensation<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">07</span>Disciplinary Framework<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">08</span>Resignation & Exit<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">09</span>Role Responsibilities<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">10</span>Output Expectations & KPIs<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">09a</span>Data Security & Confidentiality<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">09b</span>Meeting Participation<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">09c</span>Performance Reviews & Compensation<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">09d</span>Employee Referral Programme<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">11</span>Design Standards & Workflow<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">11b</span>Daily Workflow Schedule<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">11c</span>Forms & Templates<span class="toc-line"></span></div>
+        <div class="toc-item"><span class="toc-num">12</span>Employee Acknowledgement<span class="toc-line"></span></div>
+      </div>
+      ${sharedPolicies()}
+      <div class="doc-section" id="sec-role">
+        <div class="doc-section-title"><span class="sec-num">09</span> Role Responsibilities — By Level</div>
+        <h3 class="sub-section">All Levels</h3>
+        <ul class="doc-list">
+          <li>Create on-brand, purpose-driven visual designs for clients across social media, print, digital, and branding.</li>
+          <li>Attend daily stand-up and provide clear task updates.</li>
+          <li>Use the approved design file system (folders, naming conventions, version control).</li>
+          <li>Maintain personal creativity log and reference library.</li>
+          <li>Accept and incorporate feedback professionally — revision requests are part of the process, not criticism.</li>
+        </ul>
+        <h3 class="sub-section">Junior Graphic Designer</h3>
+        <ul class="doc-list">
+          <li>Execute design briefs assigned by Creative Head or Senior Designer.</li>
+          <li>Focus on social media creatives, templates, and supporting collateral.</li>
+          <li>Minimum output: 5–6 designs/day (complex designs: 2–3/day).</li>
+          <li>All work must be reviewed by Senior Designer before client delivery.</li>
+          <li>Active participation in skill-building sessions is mandatory.</li>
+        </ul>
+        <h3 class="sub-section">Mid-Level Graphic Designer</h3>
+        <ul class="doc-list">
+          <li>Handle end-to-end design for assigned clients with Creative Head oversight.</li>
+          <li>Lead design on medium-complexity projects (brand identity elements, campaign visuals).</li>
+          <li>Minimum output: 5–6 designs/day; 1 branding deliverable/week.</li>
+          <li>Guide and review Junior Designer's work on shared projects.</li>
+          <li>Contribute to FlumenX portfolio and case study documentation.</li>
+        </ul>
+        <h3 class="sub-section">Senior Graphic Designer</h3>
+        <ul class="doc-list">
+          <li>Lead complex branding projects — brand manuals, visual identity systems, campaign suites.</li>
+          <li>Own client design relationships for assigned accounts.</li>
+          <li>Review and approve all design work before client delivery.</li>
+          <li>Maintain and evolve the FlumenX design system and brand guidelines.</li>
+          <li>Train junior and mid-level designers on tools and design thinking.</li>
+          <li>Minimum output: 3–4 major deliverables/day; 2 branding projects/month.</li>
+        </ul>
+      </div>
+      <div class="doc-section" id="sec-kpi">
+        <div class="doc-section-title"><span class="sec-num">10</span> Output Expectations & KPIs</div>
+        <div class="kpi-row header">
+          <div class="kpi-cell">KPI</div><div class="kpi-cell">Junior</div><div class="kpi-cell">Mid</div><div class="kpi-cell">Senior</div>
+        </div>
+        <div class="kpi-row"><div class="kpi-cell">Daily design output</div><div class="kpi-cell">5–6 creatives</div><div class="kpi-cell">5–6 creatives</div><div class="kpi-cell">3–4 major pieces</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Client approval rate</div><div class="kpi-cell">>85%</div><div class="kpi-cell">>90%</div><div class="kpi-cell">>92%</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Avg revision rounds</div><div class="kpi-cell"><3</div><div class="kpi-cell"><2.5</div><div class="kpi-cell"><2</div></div>
+        <div class="kpi-row"><div class="kpi-cell">On-time delivery</div><div class="kpi-cell">>90%</div><div class="kpi-cell">>93%</div><div class="kpi-cell">>95%</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Portfolio contributions/month</div><div class="kpi-cell">1–2</div><div class="kpi-cell">2–3</div><div class="kpi-cell">3+</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Brand guideline adherence</div><div class="kpi-cell">100%</div><div class="kpi-cell">100%</div><div class="kpi-cell">100%</div></div>
+        <div class="kpi-row"><div class="kpi-cell">Skill development</div><div class="kpi-cell">1 new skill/quarter</div><div class="kpi-cell">1 new skill/quarter</div><div class="kpi-cell">Lead skill sessions</div></div>
+      </div>
+      <div class="callout callout-info">
+        <p><strong>Output escalation:</strong> If output falls below 5 designs/day, your manager will check in with you at end of day. If this is a genuine complexity issue, time will be extended with no penalty. Habitual underperformance follows a 4-week escalation: verbal warning → written warning + daily monitoring → performance review + PIP consideration → role reassessment. Consistent high performers (>6/day) will be recognised at monthly team meetings and are first in line for bonuses and promotions.</p>
+      </div>
+      <div class="doc-section" id="sec-workflow">
+        <div class="doc-section-title"><span class="sec-num">11</span> Design Standards & Workflow</div>
+        <h3 class="sub-section">Daily Output — Non-Negotiable</h3>
+        <div class="callout callout-warning">
+          <p><strong>Minimum daily output: 5–6 completed designs.</strong> This is tracked daily by your manager. Simple designs (social media posts, basic graphics) should exceed 6 per day. Working production time is 6–7 hours per day excluding meetings and breaks.</p>
+        </div>
+        <h3 class="sub-section">Complex Work Approval Rule</h3>
+        <p class="body-text">If a design will take more than 2 hours to complete, you <strong>must get explicit manager approval before starting</strong>. Complex work includes: detailed brand identity projects, complex illustrations, multi-page print materials (catalogues, booklets), and large-format design requiring extensive detail. Failure to get approval before starting a complex task may result in underperformance marking and escalation.</p>
+        <h3 class="sub-section">Brief Requirements — Mandatory Checklist</h3>
+        <p class="body-text">Never start a design without a complete brief. Every project must have:</p>
+        <ul class="doc-list">
+          <li>Project name and client name</li>
+          <li>Design type (logo, social post, flyer, brochure, etc.)</li>
+          <li>Brand guidelines document (colours, fonts, logo files)</li>
+          <li>Exact dimensions and specifications</li>
+          <li>Reference examples or inspiration links</li>
+          <li>Copy/text content (if applicable — you should not be writing copy)</li>
+          <li>Internal deadline AND client deadline</li>
+          <li>Number of concepts required (typically 2–3 for initial presentation)</li>
+          <li>Revision rounds included (standard: 2 per company package)</li>
+        </ul>
+        <div class="callout callout-info">
+          <p>If any item on the brief checklist is missing: <strong>ask your manager or client coordinator before starting</strong>. Do not assume, guess, or proceed on incomplete information. Document all clarifications in email.</p>
+        </div>
+        <h3 class="sub-section">Brief-to-Delivery Process (8 Steps)</h3>
+        <ul class="doc-list">
+          <li><strong>Step 1 — Receive & Review Brief:</strong> Read thoroughly. Ask all clarifying questions before starting. Confirm the deadline.</li>
+          <li><strong>Step 2 — Research & Ideation:</strong> Review client brand guidelines. Collect reference examples, gather licensed image and icon assets. Sketch rough concepts for complex projects.</li>
+          <li><strong>Step 3 — Create Initial Concepts:</strong> Design 2–3 concept options (as per brief). Each concept must be distinct in approach. Apply brand guidelines strictly.</li>
+          <li><strong>Step 4 — Internal Review:</strong> Submit to manager or Senior Designer for feedback. Make all internal revisions. Get manager sign-off before any client submission.</li>
+          <li><strong>Step 5 — Client Presentation:</strong> Submit via the approved channel (Operations Manager handles client-facing communication for most accounts). Include a brief design rationale if needed. Wait for written client feedback — do not chase verbally and proceed without written confirmation.</li>
+          <li><strong>Step 6 — Revisions:</strong> Maximum 2 revision rounds per standard package. Additional revisions require manager approval and may have a billing implication. Document every revision request clearly in the project tracker.</li>
+          <li><strong>Step 7 — Final Delivery:</strong> Obtain written client approval. Prepare final files in all required formats (print-ready, web, social). Organise and properly archive all project files.</li>
+          <li><strong>Step 8 — File Archival:</strong> Save source files to the correct folder. Update project tracker status. Move to completed projects folder.</li>
+        </ul>
+        <h3 class="sub-section">Quality Standards — Mandatory for All Designs</h3>
+        <table class="doc-table">
+          <tr><th>Standard</th><th>Requirements</th></tr>
+          <tr><td>Brand Guidelines</td><td>Follow client brand colours exactly (use hex codes). Use specified fonts only. Logo placement as per brand guidelines. Maintain brand voice.</td></tr>
+          <tr><td>Technical</td><td>Minimum 300 DPI for print, 72 DPI for web. Correct colour profiles (RGB for digital, CMYK for print). Correct dimensions per brief. Export in required formats.</td></tr>
+          <tr><td>File Organisation</td><td>Clean, named layers. Group related layers in folders. Delete unused layers before submission. Include fonts folder if using custom fonts.</td></tr>
+          <tr><td>Typography</td><td>Proper hierarchy (headline, subhead, body). Adequate line spacing and kerning. Minimum 10pt for body text. No more than 3 font families per design.</td></tr>
+          <tr><td>Composition</td><td>Visual balance and flow. Adequate white space. Aligned elements (use grids). Consistent spacing throughout.</td></tr>
+        </table>
+        <h3 class="sub-section">File Naming Convention</h3>
+        <p class="body-text"><code>ClientName_ProjectType_v[N]_[Date].ext</code><br>Example: <code>VillaMaya_InstagramPost_v2_20260601.psd</code></p>
+        <p class="body-text">Folder structure: <code>Clients / [Client] / [Project] / [YYYY-MM-DD] / 01_Brief → 02_References → 03_WorkingFiles → 04_Internal_Review → 05_Final</code></p>
+        <h3 class="sub-section">Prohibited Practices</h3>
+        <div class="callout callout-warning">
+          <p><strong>Never:</strong></p>
+          <ul style="margin-top:8px;padding-left:20px">
+            <li>Use unlicensed stock images, icons, or fonts in any client delivery.</li>
+            <li>Deliver work to the client without internal review (Junior and Mid-level).</li>
+            <li>Share client files on personal drives, personal WhatsApp, or personal email.</li>
+            <li>Submit work that deviates from the client's brand guidelines without documented manager or client approval.</li>
+            <li>Start a complex project (>2 hours) without manager approval.</li>
+            <li>Begin work on an incomplete brief without seeking clarification first.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-title"><span class="sec-num">11b</span> Daily Workflow Schedule</div>
+        <table class="doc-table">
+          <tr><th>Time</th><th>Activity</th></tr>
+          <tr><td>9:30 AM – 10:00 AM</td><td>Check email and project tracker for new briefs or feedback. Review pending tasks. Clarify any doubts before starting work. Attend daily stand-up.</td></tr>
+          <tr><td>10:00 AM – 1:00 PM</td><td>Priority design work. Submit completed designs for internal review as you finish them. Make revisions based on morning feedback.</td></tr>
+          <tr><td>1:00 PM – 2:00 PM</td><td>Lunch break.</td></tr>
+          <tr><td>2:00 PM – 5:30 PM</td><td>Continue design work. Collaborate with team as needed. Organise files and update project tracker. Submit final designs before 5:30 PM.</td></tr>
+          <tr><td>5:30 PM – 6:00 PM</td><td>Update project tracker with status of all tasks. Note any pending items and questions for manager. Plan tomorrow's priorities. Ensure all files are backed up to the shared drive.</td></tr>
+        </table>
+        <div class="callout callout-info">
+          <p><strong>End-of-Day Rule:</strong> All work in progress must have a clear status note in the project tracker before you leave for the day. Your manager checks the tracker — "working on it" is not a status. Write "In progress — 60% done, will complete tomorrow AM" instead.</p>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <div class="doc-section-title"><span class="sec-num">11c</span> Useful Forms &amp; Templates</div>
+        <h3 class="sub-section">Leave Request Email Template</h3>
+        <div class="email-template">
+          <div class="email-header">📧 Leave Request Template</div>
+          <div class="email-meta">
+            <div class="email-meta-row"><strong>To:</strong> hr@flumenx.com</div>
+            <div class="email-meta-row"><strong>CC:</strong> [Your Manager], marketing@miscarchive.com</div>
+            <div class="email-meta-row"><strong>Subject:</strong> Leave Request — [Your Name] — [DD/MM to DD/MM]</div>
+          </div>
+          <div class="email-body">Dear HR / [Manager Name],
+
+I would like to request [Leave Type: Casual / Sick / Emergency] for [Number] day(s) from [Start Date DD/MM/YYYY] to [End Date DD/MM/YYYY].
+
+Reason: [Brief explanation — keep professional]
+
+Handover Plan:
+— Ongoing designs: [List current projects and backup contact]
+— Pending client deliverables: [Status of each]
+— Urgent matters: [Who to contact]
+— Availability during leave: [Reachable / Not reachable]
+
+Current leave balance: [X days remaining]
+
+I have ensured all urgent deliverables are completed before my leave, and [Colleague Name] will cover any critical requests.
+
+Thank you for your consideration.
+
+[Your Full Name]
+[Designation]
+[Contact Number]</div>
+        </div>
+        <h3 class="sub-section">Expense Reimbursement Template</h3>
+        <div class="email-template">
+          <div class="email-header">📧 Expense Reimbursement Request</div>
+          <div class="email-meta">
+            <div class="email-meta-row"><strong>To:</strong> accounts@miscarchive.com</div>
+            <div class="email-meta-row"><strong>CC:</strong> [Manager Email]</div>
+            <div class="email-meta-row"><strong>Subject:</strong> Expense Reimbursement — [Your Name] — [Date]</div>
+          </div>
+          <div class="email-body">Dear Accounts Team,
+
+I am requesting reimbursement for the following work-related expense:
+
+Date of Expense: [DD/MM/YYYY]
+Category: [Software / Training / Client Meeting / Travel / Other]
+Amount: ₹[Amount]
+Purpose: [Detailed explanation]
+Project / Client: [If applicable]
+Pre-approval obtained: [Yes / No — attach approval email if amount exceeds ₹1,000]
+
+Original receipt / bill attached.
+
+Bank Details:
+Account Name: [Your Name]
+Account Number: [Number]
+Bank Name: [Bank]
+IFSC Code: [Code]
+
+[Your Full Name]
+[Date]</div>
+        </div>
+        <h3 class="sub-section">Grievance / Complaint Form</h3>
+        <p class="body-text">Submit grievances in writing to hr@flumenx.com marked CONFIDENTIAL. Include: nature of grievance (harassment / discrimination / policy violation / manager issue / compensation / other), incident date and description, persons involved (or "prefer not to disclose"), supporting evidence (emails, screenshots, witnesses), and your desired resolution. All grievances are handled confidentially. HR will respond within 48 hours. If your grievance is about the HR Manager, submit directly to the CEO at anoopkrishna@flumenx.com.</p>
+        <h3 class="sub-section">Asset Return Checklist (Upon Resignation)</h3>
+        <table class="doc-table">
+          <tr><th>Category</th><th>Items</th></tr>
+          <tr><td>Hardware</td><td>Laptop (model + serial recorded), mouse, keyboard, charger, any external drives or accessories issued by the company.</td></tr>
+          <tr><td>Software / Access</td><td>Company email access transferred, shared drives access revoked, Adobe CC licence deactivated, project management tools access removed, communication apps (WhatsApp groups) exited.</td></tr>
+          <tr><td>Physical</td><td>Office keys (if issued), ID card, visiting cards (unused), any company stationery or branded items.</td></tr>
+          <tr><td>Files &amp; Data</td><td>All project files uploaded to the company shared drive. Personal files deleted from company devices. No company data retained on personal devices. All client files returned / deleted from personal storage.</td></tr>
+        </table>
+      </div>
+
+      <div class="doc-section" id="sec-acknowledgement">
+        <div class="doc-section-title"><span class="sec-num">12</span> Employee Acknowledgement</div>
+        <p class="body-text">I, _________________________________________ (Full Name), hereby acknowledge that I have received, read, and fully understood this Employee Handbook and Standard Operating Procedures for my role as Graphic Designer at FlumenX / Misc Archive.</p>
+        <p class="body-text">I agree to comply with all policies, procedures, and guidelines contained in this document. I understand that:</p>
+        <ul class="doc-list">
+          <li>Violation of any policy may result in disciplinary action up to and including termination of employment.</li>
+          <li>The company reserves the right to modify policies with reasonable notice to employees.</li>
+          <li>This handbook does not constitute a contract of employment.</li>
+        </ul>
+        <table class="doc-table">
+          <tr><td colspan="2" style="background:var(--forest);color:var(--cream);font-weight:600;padding:10px 14px">I specifically confirm that I have read and understood:</td></tr>
+          <tr><td>☐ Office hours and attendance policy (9:30 AM – 6:30 PM, Mon–Sat)</td><td>☐ Late-coming consequences (half-day deduction from 4th instance)</td></tr>
+          <tr><td>☐ Leave application procedures (email to HR, 7 days advance for planned leave)</td><td>☐ Contingency remote work conditions (not a general WFH policy)</td></tr>
+          <tr><td>☐ Daily output targets (minimum 5–6 designs per day, tracked daily)</td><td>☐ Complex work approval rule (>2 hours requires manager sign-off before starting)</td></tr>
+          <tr><td>☐ Design brief requirements (never start without complete brief)</td><td>☐ Quality standards and file organisation / naming conventions</td></tr>
+          <tr><td>☐ Meeting participation requirements (active contribution, not passive attendance)</td><td>☐ Data security and NDA obligations</td></tr>
+          <tr><td>☐ Escalation framework (4 levels + HR + CEO)</td><td>☐ Disciplinary framework (5 stages + zero-tolerance offences)</td></tr>
+          <tr><td>☐ Performance review system and rating scale (1–5)</td><td>☐ Client onboarding and project workflow responsibilities</td></tr>
+          <tr><td>☐ Employee referral programme and commission structure</td><td>☐ Salary payment dates (5th–12th of each month)</td></tr>
+        </table>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px">
+          <div>
+            <p style="font-size:13px;color:#6B6B6B;margin-bottom:6px">Full Name</p>
+            <div style="border-bottom:1px solid #DDD5C4;height:32px"></div>
+          </div>
+          <div>
+            <p style="font-size:13px;color:#6B6B6B;margin-bottom:6px">Employee ID</p>
+            <div style="border-bottom:1px solid #DDD5C4;height:32px"></div>
+          </div>
+          <div>
+            <p style="font-size:13px;color:#6B6B6B;margin-bottom:6px">Designation (Circle): Senior / Mid-Level / Junior / Intern</p>
+            <div style="border-bottom:1px solid #DDD5C4;height:32px"></div>
+          </div>
+          <div>
+            <p style="font-size:13px;color:#6B6B6B;margin-bottom:6px">Date of Joining</p>
+            <div style="border-bottom:1px solid #DDD5C4;height:32px"></div>
+          </div>
+          <div>
+            <p style="font-size:13px;color:#6B6B6B;margin-bottom:6px">Employee Signature</p>
+            <div style="border-bottom:1px solid #DDD5C4;height:48px"></div>
+          </div>
+          <div>
+            <p style="font-size:13px;color:#6B6B6B;margin-bottom:6px">Manager Signature</p>
+            <div style="border-bottom:1px solid #DDD5C4;height:48px"></div>
+          </div>
+          <div>
+            <p style="font-size:13px;color:#6B6B6B;margin-bottom:6px">HR Signature</p>
+            <div style="border-bottom:1px solid #DDD5C4;height:48px"></div>
+          </div>
+          <div>
+            <p style="font-size:13px;color:#6B6B6B;margin-bottom:6px">Effective Date</p>
+            <div style="border-bottom:1px solid #DDD5C4;height:48px"></div>
+          </div>
+        </div>
+      </div>
+  </div><!-- /hub-content -->
+</div><!-- /hub -->
+
+
+<!-- ═══════════════════════════════════════════ DOC VIEW ═══ -->
+<div id="doc-view">
+  <div class="doc-topbar">
+    <button class="back-btn" onclick="closeDoc()">← Back to Hub</button>
+    <div class="doc-topbar-info">
+      <div class="doc-topbar-title" id="docTopTitle"></div>
+      <div class="doc-topbar-sub">FlumenX & Misc Archive · Gautham Villa T, Kanjirampara, Trivandrum</div>
+    </div>
+    <div class="doc-type-badge" id="docTypeBadge"></div>
+    <button class="print-btn" onclick="window.print()">⎙ Print / PDF</button>
+  </div>
+  <div class="doc-wrapper" id="docContent"></div>
+</div>
+
+
+<script>
+// ────────────────────────────────────────────
+// COMMON COMPANY INFO
+// ────────────────────────────────────────────
+const CO = {
+  name: "FlumenX / Misc Archive",
+  address: "Gautham Villa T, C7/82, Kairali Nagar, Kanjirampara, Thiruvananthapuram, Kerala 695030",
+  phone: "+91 8907 634900",
+  ceo: "Anoop Krishna V A",
+  ceoEmail: "anoopkrishna@flumenx.com",
+  opsEmail: "marketing@miscarchive.com",
+  hrEmail: "hr@flumenx.com",
+  web1: "www.flumenx.com",
+  web2: "www.miscarchive.com",
+  officeHours: "9:30 AM – 6:30 PM, Monday to Saturday",
+  leavePolicy: "2 leaves/month (1 Sick + 1 Casual) — eligible after 6 months",
+  latePolicy: "Max 3 times/month within 10-min grace; thereafter half-day salary deduction per occurrence",
+  noticePeriod: "30 days (staff) / 60 days (senior/leadership)",
+  reviewCycle: "Monthly 1:1 reviews + Quarterly formal reviews",
+  salary: "Paid 5th–12th of each month",
+  increment: "5–15% based on performance (reviewed quarterly; effective when revenue > ₹8L/month)"
+};
+
+// ────────────────────────────────────────────
+// SHARED POLICY BLOCK (appears in all handbooks)
+// ────────────────────────────────────────────
+
+
+
+
+
+const docs = {
+
+  // ──────────── GRAPHIC DESIGNER HANDBOOK ────────────
+  'graphic-designer-handbook': {
+    title: 'Graphic Designer — Employee Handbook',
+    type: 'handbook',
+    content: () => `
+     
+    `
+  },
+
+  // ──────────── GRAPHIC DESIGNER MANUAL ────────────
+  'graphic-designer-manual': {
+    title: 'Graphic Designer — Management Escalation Manual',
+    type: 'manual',
+    content: () => `
+      <div class="doc-cover">
+        <div class="doc-cover-badge manual">Management Manual · Confidential</div>
+        <h1 class="manual-title">Graphic Designer<br><em>Management Escalation Manual</em></h1>
+        <p>For Managers & CEO Only — Do Not Share with Employees</p>
+        <div class="doc-cover-meta">
+          <div class="doc-cover-meta-item"><div class="dcm-label">Effective</div><div class="dcm-value">June 2026</div></div>
+          <div class="doc-cover-meta-item"><div class="dcm-label">Access</div><div class="dcm-value">CEO / HR / Creative Head</div></div>
+        </div>
+      </div>
+      ${manualHeader('Graphic Designer')}
+      <div class="doc-section">
+        <div class="doc-section-title"><span class="sec-num">M2b</span> Role-Specific Monitoring — Graphic Designer</div>
+        <h3 class="sub-section">Daily Quality Checks</h3>
+        <ul class="doc-list">
+          <li>Review designs delivered to clients each day — check for brand guideline compliance, quality, and revision count.</li>
+          <li>Track output numbers in the team task board — flag if below daily minimums (Junior/Mid: 5 creatives; Senior: 3 major pieces) for 2+ consecutive days.</li>
+          <li>Monitor revision rounds per designer per client — alert at avg >3 rounds.</li>
+          <li>Check file folder structure weekly — disorganised filing is a quality indicator.</li>
+        </ul>
+        <h3 class="sub-section">Common Issues & First Response</h3>
+        <table class="doc-table">
+          <tr><th>Issue</th><th>First Response</th><th>Tier</th></tr>
+          <tr><td>Output below minimum 1 day</td><td>Private check-in — ask if blocked</td><td>None (coaching)</td></tr>
+          <tr><td>Output below minimum 3+ consecutive days</td><td>Verbal Warning + log</td><td>Tier 1</td></tr>
+          <tr><td>Client rejects design due to quality (1st time)</td><td>Design review session + feedback</td><td>None (coaching)</td></tr>
+          <tr><td>Client rejects design due to quality (repeated)</td><td>Written Warning + training requirement</td><td>Tier 2</td></tr>
+          <tr><td>Wrong file format/size sent to client</td><td>Private correction + verbal note</td><td>Tier 1 if repeated</td></tr>
+          <tr><td>Unlicensed assets used</td><td>Immediate correction + Written Warning</td><td>Tier 2 (immediate)</td></tr>
+          <tr><td>Missed brief deadline (first time)</td><td>Understand reason + verbal reminder</td><td>Tier 1 if pattern</td></tr>
+          <tr><td>Sharing client assets externally without approval</td><td>Suspend access + escalate to CEO immediately</td><td>Tier 3/4</td></tr>
+        </table>
+      </div>
+      ${escalationProcedure('Graphic Designer', {
+        tier1: 'Output below minimum for 3+ days, first missed deadline, minor quality issues, skipping stand-up.',
+        tier2: 'Repeated quality failures affecting client satisfaction, second missed deadline in a month, using unlicensed assets, ignoring feedback pattern.',
+        tier3: 'Third written warning, PIP required. Client relationship damaged by design failures, persistent output failure despite coaching.',
+        tier4: 'PIP failure, sharing client assets without authorisation, gross insubordination, data breach, AWOL 3+ days.'
+      })}
+      ${emailTemplates('Graphic Designer')}
+      ${clientLossProtocol()}
+      ${documentationRequirements()}
+    `
+  },
+
+  
+
+ 
+
+
+  
+
+}; // end docs object
+
+// ────────────────────────────────────────────
+// NAVIGATION FUNCTIONS
+// ────────────────────────────────────────────
+function openDoc(docId) {
+  const doc = docs[docId];
+  if (!doc) return;
+
+  document.getElementById('hub').style.display = 'none';
+  document.getElementById('doc-view').style.display = 'block';
+
+  document.getElementById('docTopTitle').textContent = doc.title;
+
+  const badge = document.getElementById('docTypeBadge');
+  if (doc.type === 'handbook') {
+    badge.textContent = 'Employee Handbook';
+    badge.className = 'doc-type-badge badge-handbook';
+  } else {
+    badge.textContent = 'Management Manual — Confidential';
+    badge.className = 'doc-type-badge badge-manual';
+  }
+
+  document.getElementById('docContent').innerHTML = doc.content();
+  window.scrollTo(0, 0);
+}
+
+function closeDoc() {
+  document.getElementById('doc-view').style.display = 'none';
+  document.getElementById('hub').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function filterDept(dept, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const sections = document.querySelectorAll('.dept-section');
+  const cards = document.querySelectorAll('.role-card');
+
+  if (dept === 'all') {
+    sections.forEach(s => s.style.display = '');
+    cards.forEach(c => c.style.display = '');
+  } else {
+    cards.forEach(c => {
+      c.style.display = c.dataset.dept === dept ? '' : 'none';
+    });
+    sections.forEach(s => {
+      const visible = Array.from(s.querySelectorAll('.role-card')).some(c => c.style.display !== 'none');
+      s.style.display = visible ? '' : 'none';
+    });
+  }
+}
+
+function filterCards() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.role-card');
+  const sections = document.querySelectorAll('.dept-section');
+
+  cards.forEach(c => {
+    const text = c.textContent.toLowerCase();
+    c.style.display = text.includes(q) ? '' : 'none';
+  });
+
+  sections.forEach(s => {
+    const visible = Array.from(s.querySelectorAll('.role-card')).some(c => c.style.display !== 'none');
+    s.style.display = visible ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
